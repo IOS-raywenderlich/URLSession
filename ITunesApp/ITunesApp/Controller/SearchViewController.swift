@@ -26,6 +26,7 @@ class SearchViewController: UIViewController {
         addViews()
         setConstraints()
         setConfigureTableView()
+        setSearchBar()
     }
     
     
@@ -42,6 +43,14 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
+    func setSearchBar() {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "곡명 또는 가수명을 검색해주세요."
+        self.navigationItem.titleView = searchBar
+
+    }
+
 
 
     func tableViewConstraints() {
@@ -60,6 +69,7 @@ extension SearchViewController: UITableViewDataSource {
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
+        //TODO 임시 값 추후 변경 예정
         return 3
     }
     
