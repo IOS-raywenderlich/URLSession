@@ -10,12 +10,12 @@ import Foundation
 let baseURL: String = "https://itunes.apple.com/search"
 
 enum ITunesURL: CustomStringConvertible {
-    case searchTerm
+    case searchTerm(item: String)
     
     var description: String {
         switch self {
-            case .searchTerm:
-            return baseURL + "/media=music&entity=song&term=\(ITunesURL.searchTerm)"
+            case .searchTerm(let item):
+            return baseURL + "/media=music&entity=song&term=\(item)"
         }
     }
     
