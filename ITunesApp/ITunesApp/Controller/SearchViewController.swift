@@ -11,6 +11,9 @@ import UIKit
 let identifier = "TrackCell"
 class SearchViewController: UIViewController {
     
+    // MARK: - queryProcessor
+    var queryProcessor:QueryProcessor!
+    
     let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
@@ -27,6 +30,7 @@ class SearchViewController: UIViewController {
         setConstraints()
         setConfigureTableView()
         setSearchBar()
+        setCongigureQueryProcessor()
     }
     
     
@@ -48,10 +52,12 @@ class SearchViewController: UIViewController {
         let searchBar = UISearchBar()
         searchBar.placeholder = "곡명 또는 가수명을 검색해주세요."
         self.navigationItem.titleView = searchBar
-
     }
 
-
+    func setCongigureQueryProcessor() {
+        queryProcessor = QueryProcessor()
+        queryProcessor.delegate = self
+    }
 
     func tableViewConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -85,3 +91,22 @@ extension SearchViewController: UITableViewDelegate {
     
 }
 
+extension SearchViewController: QueryProcessorDelegate {
+    func didSucessWith(
+        data: Data,
+        response: URLResponse,
+        usage: ITunesURL
+    ) {
+        
+    }
+    
+    func didFailwith(
+        error: Error?,
+        response: URLResponse?,
+        usage: ITunesURL
+    ) {
+        
+    }
+    
+    
+}
