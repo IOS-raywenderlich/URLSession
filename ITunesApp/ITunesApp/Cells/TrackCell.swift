@@ -8,7 +8,17 @@
 import Foundation
 import UIKit
 
+//
+// MARK: - Track Cell Delegate Protocol
+//
+protocol TrackCellDelegate {
+  func downloadTapped(_ cell: TrackCell)
+}
+
 class TrackCell: UITableViewCell{
+    
+    // 
+    var delegate: TrackCellDelegate?
     
     //
     // MARK: - init
