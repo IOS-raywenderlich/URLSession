@@ -23,6 +23,15 @@ class SearchViewController: UIViewController {
         return tableView
     }()
     
+    lazy var tapRecognizer: UITapGestureRecognizer = {
+      var recognizer = UITapGestureRecognizer(target:self, action: #selector(dismissKeyboard))
+      return recognizer
+    }()
+    
+    @objc func dismissKeyboard() {
+      searchBar.resignFirstResponder()
+    }
+    
     override func viewDidLoad() {
         view.backgroundColor = .white
         setup()
@@ -54,6 +63,7 @@ class SearchViewController: UIViewController {
     func setSearchBar() {
         searchBar.placeholder = "곡명 또는 가수명을 검색해주세요."
         self.navigationItem.titleView = searchBar
+        searchBar.delegate = self
     }
 
     func setCongigureQueryProcessor() {
@@ -91,6 +101,29 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
     
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        dismissKeyboard()
+        
+        guard let searchText = searchBar.text, !searchText.isEmpty else {
+          return
+        }
+        
+        queryProcessor.fetchData(
+            urlString: ITunesURL.searchTerm(item: searchText).description,
+            usage: .searchTerm(item: searchText))
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+      view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+      view.removeGestureRecognizer(tapRecognizer)
+    }
 }
 
 extension SearchViewController: QueryProcessorDelegate {
