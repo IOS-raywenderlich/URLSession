@@ -85,24 +85,43 @@ class SearchViewController: UIViewController {
 
 
 extension SearchViewController: UITableViewDataSource {
+    //
+    // MARK: - numberOfRowsInSection
+    //
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        //TODO 임시 값 추후 변경 예정
         return resultCount
     }
     
+    //
+    // MARK: - cellForRowAt
+    //
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: identifier,
+            for: indexPath
+        ) as? TrackCell else { return UITableViewCell() }
+
+        DispatchQueue.main.async {
+            self.trackInfo.map { overView in
+                cell.artistNameLabel.text = overView[indexPath.row].artistName
+                cell.trackNameLabel.text = overView[indexPath.row].trackName
+            }
+        }
+        
+        return cell
     }
 }
 
 extension SearchViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+      return 62.0
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
