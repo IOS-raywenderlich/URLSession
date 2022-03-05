@@ -40,6 +40,15 @@ class TrackCell: UITableViewCell{
         return trackNameLabel
     }()
     
+    let downloadButton: UIButton = {
+        let downloadButton = UIButton()
+        downloadButton.setTitle("download", for: .normal)
+        downloadButton.backgroundColor = .clear
+        downloadButton.setTitleColor(.black, for: .normal)
+        
+        return downloadButton
+    }()
+    
     //
     // MARK: - setup
     //
@@ -51,11 +60,13 @@ class TrackCell: UITableViewCell{
     func addViews() {
         contentView.addSubview(artistNameLabel)
         contentView.addSubview(trackNameLabel)
+        contentView.addSubview(downloadButton)
     }
     
     func setConstraints() {
         artistNameLabelConstraints()
         trackNameLabelConstraints()
+        downloadButtonConstraints()
     }
     
     func artistNameLabelConstraints() {
@@ -71,5 +82,9 @@ class TrackCell: UITableViewCell{
         trackNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11).isActive = true
         trackNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10).isActive = true
     }
-    
+    func downloadButtonConstraints() {
+        downloadButton.translatesAutoresizingMaskIntoConstraints = false
+        downloadButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+    }
 }
