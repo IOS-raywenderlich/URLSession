@@ -13,6 +13,8 @@ class SearchViewController: UIViewController {
     
     // MARK: - tabelView Property
     let searchBar = UISearchBar()
+    var trackInfo: [Track.Results]?
+    var resultCount: Int = 0
     
     // MARK: - queryProcessor
     var queryProcessor:QueryProcessor!
@@ -88,7 +90,7 @@ extension SearchViewController: UITableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         //TODO 임시 값 추후 변경 예정
-        return 3
+        return resultCount
     }
     
     func tableView(
@@ -132,7 +134,15 @@ extension SearchViewController: QueryProcessorDelegate {
         response: URLResponse,
         usage: ITunesURL
     ) {
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { return }
+        guard let decoded = try? JSONDecoder().decode(Track.self, from: data) else { return }
         
+        DispatchQueue.main.async {
+            self.resultCount = decoded.resultCount
+            self.tableView.reloadData()
+        }
+        
+        self.trackInfo = decoded.results
     }
     
     func didFailwith(
