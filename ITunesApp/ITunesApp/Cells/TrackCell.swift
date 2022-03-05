@@ -17,7 +17,7 @@ protocol TrackCellDelegate {
 
 class TrackCell: UITableViewCell{
     
-    // 
+    //
     var delegate: TrackCellDelegate?
     
     //
@@ -26,6 +26,7 @@ class TrackCell: UITableViewCell{
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: reuseIdentifier)
         setup()
+        self.downloadButton.addTarget(self, action: #selector(downloadTapped), for: .touchUpInside)
     }
     
     required init?(coder Decoder: NSCoder) {
@@ -92,9 +93,17 @@ class TrackCell: UITableViewCell{
         trackNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11).isActive = true
         trackNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10).isActive = true
     }
+    
     func downloadButtonConstraints() {
         downloadButton.translatesAutoresizingMaskIntoConstraints = false
         downloadButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+    }
+    
+    //
+    // MARK: - Button Action
+    //
+    @objc func downloadTapped(_ sender: AnyObject) {
+      delegate?.downloadTapped(self)
     }
 }
