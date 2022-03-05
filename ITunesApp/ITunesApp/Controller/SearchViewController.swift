@@ -119,7 +119,9 @@ extension SearchViewController: UITableViewDataSource {
 }
 
 extension SearchViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+      return 62.0
+    }
 }
 
 extension SearchViewController: UISearchBarDelegate {
