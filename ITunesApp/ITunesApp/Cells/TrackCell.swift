@@ -8,7 +8,17 @@
 import Foundation
 import UIKit
 
+//
+// MARK: - Track Cell Delegate Protocol
+//
+protocol TrackCellDelegate {
+  func downloadTapped(_ cell: TrackCell)
+}
+
 class TrackCell: UITableViewCell{
+    
+    //
+    var delegate: TrackCellDelegate?
     
     //
     // MARK: - init
@@ -16,6 +26,7 @@ class TrackCell: UITableViewCell{
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: reuseIdentifier)
         setup()
+        self.downloadButton.addTarget(self, action: #selector(downloadTapped), for: .touchUpInside)
     }
     
     required init?(coder Decoder: NSCoder) {
@@ -40,6 +51,15 @@ class TrackCell: UITableViewCell{
         return trackNameLabel
     }()
     
+    let downloadButton: UIButton = {
+        let downloadButton = UIButton()
+        downloadButton.setTitle("download", for: .normal)
+        downloadButton.backgroundColor = .clear
+        downloadButton.setTitleColor(.black, for: .normal)
+        
+        return downloadButton
+    }()
+    
     //
     // MARK: - setup
     //
@@ -51,11 +71,13 @@ class TrackCell: UITableViewCell{
     func addViews() {
         contentView.addSubview(artistNameLabel)
         contentView.addSubview(trackNameLabel)
+        contentView.addSubview(downloadButton)
     }
     
     func setConstraints() {
         artistNameLabelConstraints()
         trackNameLabelConstraints()
+        downloadButtonConstraints()
     }
     
     func artistNameLabelConstraints() {
@@ -72,4 +94,16 @@ class TrackCell: UITableViewCell{
         trackNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10).isActive = true
     }
     
+    func downloadButtonConstraints() {
+        downloadButton.translatesAutoresizingMaskIntoConstraints = false
+        downloadButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        downloadButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+    }
+    
+    //
+    // MARK: - Button Action
+    //
+    @objc func downloadTapped(_ sender: AnyObject) {
+      delegate?.downloadTapped(self)
+    }
 }
