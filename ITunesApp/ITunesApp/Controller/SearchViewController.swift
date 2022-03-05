@@ -11,6 +11,9 @@ import UIKit
 let identifier = "TrackCell"
 class SearchViewController: UIViewController {
     
+    // MARK: - tabelView Property
+    let searchBar = UISearchBar()
+    
     // MARK: - queryProcessor
     var queryProcessor:QueryProcessor!
     
@@ -49,7 +52,6 @@ class SearchViewController: UIViewController {
     }
     
     func setSearchBar() {
-        let searchBar = UISearchBar()
         searchBar.placeholder = "곡명 또는 가수명을 검색해주세요."
         self.navigationItem.titleView = searchBar
     }
