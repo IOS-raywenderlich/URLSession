@@ -114,6 +114,8 @@ extension SearchViewController: UITableViewDataSource {
             }
         }
         
+        cell.delegate = self
+        
         return cell
     }
 }
@@ -171,6 +173,13 @@ extension SearchViewController: QueryProcessorDelegate {
     ) {
         
     }
-    
-    
+}
+
+extension SearchViewController: TrackCellDelegate {
+    func downloadTapped(_ cell: TrackCell) {
+        if let indexPath = tableView.indexPath(for: cell) {
+            guard let track = trackInfo?[indexPath.row] else { return }
+            print(track)
+        }
+    }
 }
